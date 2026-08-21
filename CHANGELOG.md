@@ -1,6 +1,17 @@
 # Changelog — schematize-database
 
-Formato: [Keep a Changelog](https://keepachangelog.com/pt-BR/). Versionamento semântico.
+Todas as mudanças relevantes deste pacote, no formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/),
+com versionamento [SemVer](https://semver.org/lang/pt-BR/).
+
+
+## [0.3.0] — 2026-08-21
+Saneamento do catálogo conforme a vistoria de 2026-08-21.
+
+### Corrigido
+- **`uuid` no lugar de `bytea` como PK** nos exemplos executáveis de `references/modelo-relacional.md`. Os dois guardam 16 bytes, mas `uuid` é o tipo que o Postgres **entende**: `gen_random_uuid()` como default, ordenação correta e — o que mais importa num incidente — o valor **legível** em `psql`, log e erro (`0190e2…` em vez de `\x0190e2…`). `bytea` como PK ficou como escolha com **motivo escrito**.
+
+### Mudado
+- `scripts/check-external-effects.sh` (+ teste) na versão distribuída (md5 idêntico nas 17); `install.sh` regenerado do template; README com a contagem de pisos corrigida (7 → 8).
 
 ## [0.2.0] — 2026-08-20
 

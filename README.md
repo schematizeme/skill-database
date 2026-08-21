@@ -50,7 +50,7 @@ unzip skill-database.zip -d .claude/skills/
 
 ## O que tem dentro
 
-- **SKILL.md** — o contrato: 7 pisos inegociáveis (PK surrogate ULID/UUIDv7 + chave natural
+- **SKILL.md** — o contrato: 8 pisos inegociáveis (PK surrogate ULID/UUIDv7 + chave natural
   `UNIQUE`, identidade≠email; normalizar até 3FN, desnormalizar registrado; o tipo é a 1ª
   constraint, sem "texto pra tudo"; integridade é do banco com constraints; índice é decisão de
   custo e PII fora de índice/URL; migration expand-contract reversível, nunca `DROP`/rename num
