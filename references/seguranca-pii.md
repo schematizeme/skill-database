@@ -82,7 +82,7 @@ Coluna de e-mail é **PII marcada** (§1) — e tem um risco extra que as outras
 **>5.000 e-mails** pra endereços sintéticos e **queimou a reputação de IP e domínio** — derrubando
 o transacional de **produção**, inclusive o **OTP de login**. Normativa completa:
 `schematize-engineering` → `references/efeitos-externos.md`; a reescrita na cópia prd→hml é a
-`schematize-data` (`governanca.md` §5.1); o DNS é a `schematize-infra`.
+`schematize-data` → `references/governanca.md` §5.1 (*"Endereço de contato: a cópia prd -> hml/dev REESCREVE o e-mail"*); o DNS é a `schematize-infra`.
 
 - **Nenhum seed, fixture, factory ou migration de dado de teste contém e-mail de caixa real.**
   **VETADO** `@gmail.com`/`@hotmail.com`/`@outlook.com` e afins, domínio de cliente/terceiro,
