@@ -4,6 +4,18 @@ Todas as mudanças relevantes deste pacote, no formato [Keep a Changelog](https:
 com versionamento [SemVer](https://semver.org/lang/pt-BR/).
 
 
+## [0.4.0] — 2026-08-21
+Segunda leva do saneamento: as contradições e a lacuna de ferramenta do inventário da vistoria.
+
+### Adicionado
+- **`scripts/check-schema.mjs` — o parser que o `/database-review` prometia** e não tinha: lê DDL e devolve **`arquivo:linha` · veredito · severidade · regra · conserto**, com `--json` e exit code (`0`/`1`/**`2` = nada para analisar**). Cobre `UNIQUE`/índice sobre **PII em claro**, dinheiro em ponto flutuante, `timestamp` sem timezone, id sequencial exposto, FK sem `ON DELETE`, **FK sem índice** (o Postgres não cria sozinho), `RENAME COLUMN`, `ADD COLUMN NOT NULL` sem default, `DROP COLUMN` direto e `CREATE INDEX` sem `CONCURRENTLY`. Com o alcance dito na cara: **é textual** — onde houver banco, `EXPLAIN` e `pg_stat_*` mandam.
+- **`scripts/check-schema.test.sh`** — 11 casos, 9 vermelhos, mais um que valida o **formato JSON**.
+
+### Corrigido
+- **O caso do e-mail deixou de dar vereditos opostos.** A regra de desempate: **unicidade é restrição e continua valendo**, mas o `UNIQUE` fica na **coluna derivada** (normalizada ou **HMAC** — `sha256` puro é reversível por dicionário), com o e-mail **em claro sem índice**; busca usa a mesma coluna derivada. *O índice em claro é o que transforma um `SELECT` acidental num dump ordenado de PII.*
+- **Ponteiros cross-skill explícitos**: `armazenamento.md` e `governanca.md` são da `schematize-data` — citá-los como locais quebrava o `/database-load`, que manda ler só o diretório da própria skill.
+- **`uuid` no lugar de `bytea`** como PK nos exemplos (ver 0.3.0), e o `dual-write` da fase Migrate agora diz **"na mesma transação, no mesmo banco"**.
+
 ## [0.3.0] — 2026-08-21
 Saneamento do catálogo conforme a vistoria de 2026-08-21.
 
