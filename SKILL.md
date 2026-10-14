@@ -1,7 +1,7 @@
 ---
 name: schematize-database
 metadata:
-  version: 0.4.0
+  version: 0.5.0
 description: >-
   Modelagem de schema relacional: entidades, normalização, chaves (surrogate + natural UNIQUE), tipos, constraints,
   índices, migrations expand-contract e coluna PII marcada. Use ao modelar ou revisar tabela, chave, índice,
@@ -23,7 +23,7 @@ o banco é a **última linha de defesa** da consistência (constraint que o banc
 de nenhum app se comportar). "Depois a gente ajusta o schema" é caro: ajustar schema com dado vivo
 é migration com risco; ajustá-lo **no desenho** é grátis.
 
-**Versão:** skill `schematize-database` v0.4.0. Changelog em `CHANGELOG.md`.
+**Versão:** skill `schematize-database` v0.5.0. Changelog em `CHANGELOG.md`.
 
 ## Comandos (Claude Code)
 
