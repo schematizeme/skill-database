@@ -11,6 +11,7 @@ Fronteira data x database decidida.
 - `references/seguranca-pii.md` §2, `SKILL.md` (itens 5-7 e fronteira): base legal, retenção e LGPD viraram ponteiro para `schematize-data → references/governanca.md`; ficou a marca da coluna e o mecanismo de expurgo no desenho.
 - `references/migrations.md`: o expand-contract do schema é daqui; backfill e migração de dados são da data.
 - `description` com 350 caracteres ou menos (era 1005).
+- **Description** reduzida (~270 chars) para caber no orçamento de listagem (soma das 31 skills ≤ 8500; o Claude Code corta a listagem acima disso).
 
 ## [0.4.0] — 2026-08-21
 Segunda leva do saneamento: as contradições e a lacuna de ferramenta do inventário da vistoria.

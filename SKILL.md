@@ -3,7 +3,9 @@ name: schematize-database
 metadata:
   version: 0.4.0
 description: >-
-  Modelagem de schema relacional da casa: entidades, normalização, chaves (surrogate + natural UNIQUE), tipos, constraints, índices, migrations expand-contract do schema e coluna PII marcada. Use ao modelar ou revisar tabela, chave, índice, constraint ou migration (*.sql). Dado em movimento e governança: schematize-data.
+  Modelagem de schema relacional: entidades, normalização, chaves (surrogate + natural UNIQUE), tipos, constraints,
+  índices, migrations expand-contract e coluna PII marcada. Use ao modelar ou revisar tabela, chave, índice,
+  constraint ou migration (*.sql). Dado em movimento: schematize-data.
 ---
 
 # Modelagem de banco de dados da casa (schematize-database)
