@@ -35,7 +35,8 @@ migrou. Faça em **três deploys separados**:
      grande populada (trava/reescreve) — adicione nullable, backfill, **depois** aperte pra
      `NOT NULL` num passo posterior.
    - Índice novo em tabela grande: **`CREATE INDEX CONCURRENTLY`** (Postgres) pra não travar
-     escrita — e fora de transação.
+     escrita — e fora de transação. O *como rodar* (fila de lock, `lock_timeout`, invalidar índice
+     falho) é de `schematize-postgres → references/locks-e-migrations.md`.
 2. **Migrate (backfill + dual-write **na mesma transação, no mesmo banco**).** Popule o novo a partir do velho — **backfill em janelas,
    idempotente** (rodar 2x não corrompe; `schematize-data` §pipelines). Durante a transição, o
    código **escreve nos dois** (velho e novo). Só avance quando o backfill **fechou** e todos os
@@ -73,7 +74,8 @@ migrou. Faça em **três deploys separados**:
 - **Migration destrutiva sem backup confirmado** não roda — o `contract` só depois de garantir que
   o dado velho não é mais necessário (ou está arquivado).
 - **Concorrência:** índice/constraint em tabela grande usa as formas que **não travam**
-  (`CONCURRENTLY`, `NOT VALID`+`VALIDATE`) — travar escrita em produção é incidente.
+  (`CONCURRENTLY`, `NOT VALID`+`VALIDATE`) — travar escrita em produção é incidente. O desenho (o que a migration contém) é daqui; a **execução** em banco vivo — `lock_timeout`/`statement_timeout`,
+  fila de lock, receitas por operação, backfill em lotes, runner — é de `schematize-postgres → references/locks-e-migrations.md`.
 
 ## 4. Particionamento básico
 
