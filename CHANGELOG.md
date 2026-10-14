@@ -13,6 +13,9 @@ Fronteira data x database decidida.
 - `description` com 350 caracteres ou menos (era 1005).
 - **Description** reduzida (~270 chars) para caber no orçamento de listagem (soma das 31 skills ≤ 8500; o Claude Code corta a listagem acima disso).
 
+### Alterado
+- `scripts/check-external-effects{,.test}.sh` viram arquivos herdados da engineering (cabeçalho "herdado de schematize-engineering — não edite aqui"); conteúdo inalterado.
+
 ## [0.4.0] — 2026-08-21
 Segunda leva do saneamento: as contradições e a lacuna de ferramenta do inventário da vistoria.
 
