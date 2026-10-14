@@ -2,7 +2,8 @@
 name: schematize-database
 metadata:
   version: 0.4.0
-description: MODELAGEM DE BANCO DE DADOS da casa (schema design) — o DESENHO do schema relacional em si, antes de uma linha de código de aplicação. Rege a tradução do domínio em modelo relacional (entidades, atributos, relações 1:1/1:N/N:N), normalização 1FN–3FN (e quando desnormalizar conscientemente, com registro), CHAVES no padrão da casa (PK surrogate ULID/UUIDv7 interna + chave natural como UNIQUE; identidade ≠ email), tipos corretos por coluna (dinheiro em inteiro/numeric, tempo em timestamptz UTC, enum como domínio — nada de "texto pra tudo"), constraints (NOT NULL/default, UNIQUE, CHECK, FOREIGN KEY com ON DELETE consciente), índices (quando criar, compostos e a ordem das colunas, cobertura, parciais, sem redundância), migrations expand-contract reversíveis (nunca DROP/rename destrutivo num passo), particionamento e o piso de PII/LGPD (coluna marcada, base legal, retenção). Use SEMPRE que for modelar, desenhar ou revisar schema, tabela, chave, índice, constraint ou migration de banco relacional.
+description: >-
+  Modelagem de schema relacional da casa: entidades, normalização, chaves (surrogate + natural UNIQUE), tipos, constraints, índices, migrations expand-contract do schema e coluna PII marcada. Use ao modelar ou revisar tabela, chave, índice, constraint ou migration (*.sql). Dado em movimento e governança: schematize-data.
 ---
 
 # Modelagem de banco de dados da casa (schematize-database)
@@ -59,10 +60,9 @@ Os comandos ficam em `assets/commands/` e são instalados em `.claude/commands/`
    de domínio, nunca default silencioso).
 5. **Planeje a evolução expand-contract** (`references/migrations.md`): toda mudança de schema em
    dado vivo é **expand → migrate → contract**, cada passo **reversível** (`down` testado). O
-   `/database-design` já emite a **primeira migration** (a criação) nesse formato. Casa com a
-   schematize-data.
+   `/database-design` já emite a **primeira migration** (a criação) nesse formato. Esta skill é dona do expand-contract do **schema**; backfill e migração de **dados** são da `schematize-data → references/armazenamento.md`.
 6. **Marque e proteja PII** (`references/seguranca-pii.md`): coluna pessoal é **marcada** (base
-   legal + retenção), **nunca** entra em índice/URL/chave natural exposta, e a identidade **não é
+   legal, retenção e mascaramento são decididos em `schematize-data → references/governanca.md`), **nunca** entra em índice/URL/chave natural exposta, e a identidade **não é
    o email** (surrogate interna). Deny-by-default e `tenant_id` no desenho multi-tenant.
 7. **Não trabalhe de memória** — as regras, os tipos, a ordem de índice e o que conta como
    "normalizado" estão nos references. Aplique os pisos abaixo independentemente do reference
@@ -116,7 +116,7 @@ Independente do reference, estes limites nunca são cruzados:
    **VETADO** — é quebra de contrato disfarçada. Casa 1:1 com o piso de migrations da
    **schematize-data**.
 7. **PII marcada, com base legal e retenção; deny-by-default e tenant no desenho.** Coluna com
-   dado pessoal é **identificada** no modelo (base legal + política de retenção — LGPD); PII
+   dado pessoal é **identificada** no modelo (a base legal e a retenção vêm de `schematize-data → references/governanca.md`; aqui entra a marca e o mecanismo de expurgo); PII
    **nunca** em log/URL/índice pesquisável em claro; segredo (senha/token) **nunca** em claro
    (hash/cofre — o banco de modelagem **não** guarda credencial reutilizável). Multi-tenant nasce
    com **`tenant_id`** na tabela e no índice, deny-by-default no acesso (RLS quando couber) — o
@@ -145,8 +145,8 @@ Esta skill desenha **o schema relacional em si**. O que fica de fora:
   back/forward/full, schema registry), **pipeline** ETL/ELT/streaming, **CDC/event sourcing**
   (Outbox, replay), **qualidade** (validação na borda, quarentena/DLQ), **lineage & catálogo**,
   warehouse/lakehouse (bronze/silver/gold). Regra prática: **desenhar a TABELA OLTP** é aqui;
-  **mover/versionar/validar o DADO entre sistemas** é `schematize-data`. O piso de
-  **expand-contract** é compartilhado (mesma disciplina) — aqui pro schema, lá pro dado em trânsito.
+  **mover/versionar/validar o DADO entre sistemas** é `schematize-data`. O
+  **expand-contract do schema** é daqui; migração/backfill de **dados** é de `schematize-data`.
 - **IMPLEMENTAÇÃO backend → skills de linguagem** (`go`/`rust`/`elixir`/`csharp`/`zig`/`ruby`). A
   **query parametrizada** (SQL concatenado é VETADO — lá), o **ORM/repositório**, **rodar** a
   migration no deploy, o **cache**, o pool de conexão, o mapeamento objeto-relacional. Esta skill
@@ -164,7 +164,7 @@ Esta skill desenha **o schema relacional em si**. O que fica de fora:
   reversíveis; query parametrizada"), aqui vira **a disciplina de desenhar o schema** que os honra.
 - **schematize-data** — a **irmã de dados**, com **fronteira nítida**: aqui é o **desenho do schema
   relacional (OLTP)**; lá é o **dado como contrato** em movimento (pipeline/CDC/streaming/qualidade/
-  lineage/warehouse). O **expand-contract reversível** é o piso que as duas compartilham. Ao
+  lineage/warehouse). O **expand-contract do schema** e a coluna PII marcada são daqui; base legal, retenção, LGPD e backfill de dados são de lá. Ao
   desenhar uma tabela que vira fonte de CDC ou de warehouse, o schema é daqui; o contrato de
   propagação é de lá.
 - **schematize-go / rust / elixir / csharp / zig / ruby** — a **implementação**. Esta skill é

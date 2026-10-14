@@ -18,18 +18,9 @@ PII** na saída; o `/database-review` **aponta PII não marcada** como achado.
 Marcar não é enfeite — é o que habilita retenção, mascaramento, export/eliminação por titular (LGPD)
 e o gate de "essa coluna pode ir pra índice/URL/log?".
 
-## 2. Base legal + retenção — obrigatórias
+## 2. Base legal + retenção — decididas na data, desenhadas aqui
 
-Nenhuma PII entra no schema sem **duas** respostas (piso da casa, LGPD):
-
-- **Base legal:** por que a casa pode tratar esse dado (consentimento, execução de contrato,
-  obrigação legal, legítimo interesse…). Sem base legal, a coluna **não existe**.
-- **Retenção:** por quanto tempo, e o que acontece depois (apagar ou anonimizar). Toda PII **expira**
-  — o desenho prevê **como** (coluna `deleted_at`/`anonymized_at`, partição por tempo que se dropa,
-  rotina de expurgo). "Guarda pra sempre por via das dúvidas" é **VETADO**.
-
-Registre base legal + retenção junto da coluna (catálogo/ADR) — é o que a auditoria e a
-`schematize-data` consomem.
+Base legal, política de retenção e LGPD (titular, eliminação) são da `schematize-data → references/governanca.md`; sem elas a coluna **não existe**. O que é do schema: registrar as duas junto da coluna (comentário/catálogo/ADR) e **desenhar o mecanismo de expurgo** — `deleted_at`/`anonymized_at`, partição por tempo que se dropa, rotina de expurgo. "Guarda pra sempre por via das dúvidas" é **VETADO**.
 
 ## 3. PII fora de índice em claro, de URL e de chave natural exposta
 

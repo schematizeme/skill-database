@@ -5,8 +5,7 @@
 > **reversível**. Este reference cobre a mecânica da migration, o versionamento do schema e o
 > **particionamento** básico.
 
-Casa 1:1 com o piso de migrations da **schematize-data** (`schematize-data` -> `references/armazenamento.md` §4): mesma
-disciplina expand-contract, aqui aplicada ao **desenho do schema**; lá, ao dado em trânsito. Base:
+Fronteira com a **schematize-data**: aqui é o expand-contract do **schema** (DDL, constraints, índices); o backfill e a migração dos **dados** em si são de `schematize-data → references/armazenamento.md` §4. Base:
 `schematize-engineering` §10 — migrations **versionadas, reversíveis (com `down`), automatizadas no
 deploy**. A **execução** (rodar a migration, a ferramenta) é da **skill de linguagem**
 (`sqlx-cli`/`golang-migrate`/`flyway`/…); aqui desenhamos **o conteúdo** da migration.
